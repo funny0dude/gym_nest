@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import { Client } from './entities/Client.entity';
+import { Program } from "./entities/Program.entity";
+import { Subscription } from "./entities/Subscriptions.entity";
 
 export const TYPEORM_CONNECTION = 'TYPEORM_CONNECTION';
 
@@ -15,7 +17,7 @@ export const TypeormConnectionProvider = {
       database: 'fitness',
       synchronize: false,
       logging: true,
-      entities: [Client],
+      entities: [Client, Program, Subscription],
     });
 
     await connection.initialize();
