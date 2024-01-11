@@ -19,7 +19,6 @@ export class ClientsRepo implements IClientRepo {
   ) {}
 
   async getClient(idClient: number) {
-    // SELECT * FROM clients WHERE clients.id = :idClient
     const client = await this.connection
       .createQueryBuilder(Client, 'client')
       .where('client.id = :idClient', { idClient })
@@ -28,7 +27,6 @@ export class ClientsRepo implements IClientRepo {
   }
 
   async deleteClient(client: Client) {
-    // SELECT * FROM clients WHERE clients.id = :idClient
     await this.connection.getRepository(Client).remove(client);
   }
 

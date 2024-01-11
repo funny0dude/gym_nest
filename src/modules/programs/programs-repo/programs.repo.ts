@@ -1,35 +1,22 @@
-import { DataSource } from "typeorm";
-import { Program } from "../database/entities/Program.entity";
+import { DataSource } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+import { Program } from '../../database/entities/Program.entity';
+import { TYPEORM_CONNECTION } from '../../database/TypeormConnection';
 
-export type TProgram = {
-  id: number; title: string; room_code: string;
-}
+export const PROGRAMS_REPO = 'PROGRAMS_REPO';
 
 export interface IProgramRepo {
-  getProgram(idProgram: number): Promise<TProgram[]>
-  deleteProgram(idProgram: number): Promise<TProgram[]>
-  createProgram(idProgram: number, title: string, room_code: string): Promise<TProgram[]>
-  updateProgram(idProgram: number, title: string, room_code: string): Promise<TProgram[]>
+  getProgram(idProgram: number): Promise<Program | null>;
+  deleteProgram(program: Program): Promise<void>;
+  createProgram(program: Program): Promise<void>;
+  updateProgram(program: Program): Promise<void>;
 }
 
-export class ArrayPostgresRepo implements IProgramRepo {
-  private readonly array: TProgram[] = [ { id: 1, title: 'Test', room_code: 'Test' }, { id: 2, title: 'Test', room_code: 'Test' } ]
-  async getProgram(idProgram: number) {
-      return this.array.sort((a, b) => a.id - b.id)
-  }
-  async deleteProgram(idProgram: number) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-  async createProgram(idProgram: number, title: string, room_code: string) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-  async updateProgram(idProgram: number, title: string, room_code: string) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-}
-
-export class ProgramsRepo {
-  constructor(private readonly connection: DataSource) {}
+@Injectable()
+export class ProgramRepo implements IProgramRepo {
+  constructor(
+    @Inject(TYPEORM_CONNECTION) private readonly connection: DataSource,
+  ) {}
 
   async getProgram(idProgram: number) {
     const programs = await this.connection
@@ -40,7 +27,6 @@ export class ProgramsRepo {
   }
 
   async deleteProgram(program: Program) {
-    // await this.connection.createQueryBuilder(Program, 'p').where('p.id = :idProgram', { idProgram }).delete()
     await this.connection.getRepository(Program).remove(program);
   }
 

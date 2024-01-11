@@ -1,56 +1,41 @@
-import { Subscription } from "../database/entities/Subscription.entity";
-import { SubscriptionsRepo } from "./subscriptions-repo";
-import { ISubscriptionsRepo, TSubscription } from "./subscriptions-repo";
+import { Subscription } from '../../database/entities/Subscription.entity';
+import { ISubscriptionRepo, SUBSCRIPTIONS_REPO } from '../subscriptions-repo/subscriptions.repo';
+import { Inject, Injectable } from '@nestjs/common';
 
-export interface ISubscriptionsService {
-  getSubscription(idSubscription: number): Promise<TSubscription[]>
-  deleteSubscription(idSubscription: number): Promise<TSubscription[]>
-  createSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string): Promise<TSubscription[]> 
-  updateSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string): Promise<TSubscription[]>
+export const SUBSCRIPTIONS_SERVICE = 'SUBSCRIPTIONS_SERVICE';
+
+export interface ISubscriptionService {
+  getSubscription(idSubscription: number): Promise<Subscription>;
+  deleteSubscription(idSubscription: number): Promise<void>;
+  createSubscription(
+    buy_date: string,
+    duration_id: number,
+    program_id: number,
+  ): Promise<void>;
+  updateSubscription(
+    idSubscription: number,
+    buy_date: string,
+    duration_id: number,
+    program_id: number,
+  ): Promise<void>;
 }
 
-export class SubscriptionService_1 implements ISubscriptionsService {
-  constructor(private readonly programRepo: ISubscriptionsRepo) {}
-  subscriptionRepo: any;
-
-  async getSubscription() {
-    const subscription = await this.subscriptionRepo.getSubscription(1);
-    if (subscription.length === 0) throw new Error("Нет клиентов!");
-    return subscription;
-  }
-
-  async deleteSubscription() {
-    const subscription = await this.subscriptionRepo.deleteSubscription(1);
-    if (subscription.length === 0) throw new Error("Нет клиентов!");
-    return subscription;
-  }
-
-  async createSubscription() {
-    const subscription = await this.subscriptionRepo.createSubscription(1, 'Test', 'Test', 'Test');
-    if (subscription.length === 0) throw new Error("Нет клиентов!");
-    return subscription;
-  }
-
-  async updateSubscription() {
-    const subscription = await this.subscriptionRepo.updateSubscription(1, 'Test', 'Test', 'Test');
-    if (subscription.length === 0) throw new Error("Нет клиентов!");
-    return subscription;
-  }
-}
-
-export class SubscriptionService {
-  constructor(private readonly subscriptionRepo: SubscriptionsRepo) {}
+@Injectable()
+export class SubscriptionService implements ISubscriptionService {
+  constructor(
+    @Inject(SUBSCRIPTIONS_REPO) private readonly subscriptionsRepo: ISubscriptionRepo,
+  ) {}
 
   async getSubscription(idSubscription: number) {
-    const subscription = await this.subscriptionRepo.getSubscription(idSubscription);
+    const subscription = await this.subscriptionsRepo.getSubscription(idSubscription);
     if (!subscription) throw new Error("Абонимент не найден!");
     return subscription;
   }
 
   async deleteSubscription(idSubscription: number) {
-    const subscription = await this.subscriptionRepo.getSubscription(idSubscription);
+    const subscription = await this.subscriptionsRepo.getSubscription(idSubscription);
     if (!subscription) throw new Error("Абонимент не найден!");
-    await this.subscriptionRepo.deleteSubscription(subscription);
+    await this.subscriptionsRepo.deleteSubscription(subscription);
   }
 
   async createSubscription(buy_date: string, program_id: number, duration_id: number) {
@@ -58,15 +43,16 @@ export class SubscriptionService {
     subscription.buy_date = buy_date;
     subscription.program_id = program_id;
     subscription.duration_id = duration_id;
-    await this.subscriptionRepo.createSubscription(subscription);
+    await this.subscriptionsRepo.createSubscription(subscription);
   }
 
   async updateSubscription(idSubscription: number, buy_date: string, program_id: number, duration_id: number) {
-    const subscription = await this.subscriptionRepo.getSubscription(idSubscription);
+    const subscription = await this.subscriptionsRepo.getSubscription(idSubscription);
     if (!subscription) throw new Error("Абонимент не найден!");
     subscription.buy_date = buy_date;
     subscription.program_id = program_id;
     subscription.duration_id = duration_id;
-    await this.subscriptionRepo.updateSubscription(subscription);
+    await this.subscriptionsRepo.updateSubscription(subscription);
   }
+
 }

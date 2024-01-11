@@ -1,36 +1,23 @@
-import { DataSource } from "typeorm";
-import { Subscription } from "../database/entities/Subscription.entity";
+import { DataSource } from 'typeorm';
+import { Inject, Injectable } from '@nestjs/common';
+import { Subscription } from '../../database/entities/Subscription.entity';
+import { TYPEORM_CONNECTION } from '../../database/TypeormConnection';
 
-export type TSubscription = {
-  id: number; duration_id: string; program_id: string; buy_date: string;
+export const SUBSCRIPTIONS_REPO = 'SUBSCRIPTIONS_REPO';
+
+export interface ISubscriptionRepo {
+  getSubscription(idSubscription: number): Promise<Subscription | null>;
+  deleteSubscription(subscription: Subscription): Promise<void>;
+  createSubscription(subscription: Subscription): Promise<void>;
+  updateSubscription(subscription: Subscription): Promise<void>;
 }
 
-export interface ISubscriptionsRepo {
-  getSubscription(idSubscription: number): Promise<TSubscription[]>
-  deleteSubscription(idSubscription: number): Promise<TSubscription[]>
-  createSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string): Promise<TSubscription[]>
-  updateSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string): Promise<TSubscription[]>
-}
-
-export class ArrayPostgresRepo implements ISubscriptionsRepo {
-  private readonly array: TSubscription[] = [ { id: 1, duration_id: 'Test', program_id: 'Test', buy_date: 'Test' }, { id: 2, duration_id: 'Test', program_id: 'Test', buy_date: 'Test' } ]
-  async getSubscription(idSubscription: number) {
-      return this.array.sort((a, b) => a.id - b.id)
-  }
-  async deleteSubscription(idSubscription: number) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-  async createSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-  async updateSubscription(idSubscription: number, duration_id: string, program_id: string, buy_date: string) {
-    return this.array.sort((a, b) => a.id - b.id)
-  }
-}
-
-export class SubscriptionsRepo {
-  constructor(private readonly connection: DataSource) {}
-
+@Injectable()
+export class SubscriptionRepo implements ISubscriptionRepo {
+  constructor(
+    @Inject(TYPEORM_CONNECTION) private readonly connection: DataSource,
+  ) {}
+  
   async getSubscription(idSubscription: number) {
     const subscriptions = await this.connection
       .createQueryBuilder(Subscription, "subscription")

@@ -1,9 +1,29 @@
-import { Request, Response } from "express";
-import { SubscriptionService } from "./service";
+import {
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  Post,
+  Put,
+  Req,
+  Res,
+} from '@nestjs/common';
+import {
+  ISubscriptionService,
+  SUBSCRIPTIONS_SERVICE,
+} from '../subscriptions-service/subscriptions.servive';
+import { Request, Response } from 'express';
 
-export class SubscriptionsController {
-  constructor(private readonly subscriptionsService: SubscriptionService) {}
+export interface IClientsController {}
 
+@Controller('subscription')
+export class SubscriptionController implements ISubscriptionController {
+  subscriptionsService: any;
+  constructor(
+    @Inject(SUBSCRIPTIONS_SERVICE) private readonly clientsService: ISubscriptionService,
+  ) {}
+
+  @Get(':idSubscription')
   async getSubscription(req: Request, res: Response) {
     const idSubscription = Number(req.params.idSubscription);
     if (!idSubscription) {
@@ -21,6 +41,7 @@ export class SubscriptionsController {
     
   }
 
+  @Delete(':idSubscription')
   async deleteSubscription(req: Request, res: Response) {
     const idSubscription = Number(req.params.idSubscription);
     if (!idSubscription) {
@@ -35,6 +56,7 @@ export class SubscriptionsController {
     }
   }
 
+  @Post(':idSubscription')
   async createSubscription(req: Request, res: Response) {
     const buy_date = String(req.body.buy_date);
     if (!buy_date) {
@@ -59,6 +81,7 @@ export class SubscriptionsController {
     }
   }
 
+  @Put(':idSubscription')
   async updateSubscription(req: Request, res: Response) {
     const idSubscription = Number(req.params.idSubscription);
     if (!idSubscription) {
