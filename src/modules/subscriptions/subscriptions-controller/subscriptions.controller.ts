@@ -14,7 +14,7 @@ import {
 } from '../subscriptions-service/subscriptions.servive';
 import { Request, Response } from 'express';
 
-export interface IClientsController {}
+export interface ISubscriptionController {}
 
 @Controller('subscription')
 export class SubscriptionController implements ISubscriptionController {

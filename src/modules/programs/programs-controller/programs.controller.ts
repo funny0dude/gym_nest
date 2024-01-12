@@ -14,7 +14,7 @@ import {
 } from '../programs-service/programs.service';
 import { Request, Response } from 'express';
 
-export interface IClientsController {}
+export interface IProgramController {}
 
 @Controller('programs')
 export class ProgramController implements IProgramController {
@@ -99,4 +99,4 @@ export class ProgramController implements IProgramController {
       res.status(500).send({ message: `Внутренняя ошибка: ${error}` });
     }
   }
-}
+} 
