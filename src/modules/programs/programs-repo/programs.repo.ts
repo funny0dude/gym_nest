@@ -19,11 +19,11 @@ export class ProgramRepo implements IProgramRepo {
   ) {}
 
   async getProgram(idProgram: number) {
-    const programs = await this.connection
+    const program = await this.connection
       .createQueryBuilder(Program, "program")
       .where("program.id = :idProgram", { idProgram })
       .getOne();
-    return programs;
+    return program;
   }
 
   async deleteProgram(program: Program) {

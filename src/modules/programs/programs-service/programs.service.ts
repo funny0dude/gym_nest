@@ -5,8 +5,8 @@ import { Inject, Injectable } from '@nestjs/common';
 export const PROGRAMS_SERVICE = 'PROGRAMS_SERVICE';
 
 export interface IProgramService {
-  getProgram(idClient: number): Promise<Program>;
-  deleteProgram(idClient: number): Promise<void>;
+  getProgram(idProgram: number): Promise<Program>;
+  deleteProgram(idProgram: number): Promise<void>;
   createProgram(
     title: string,
     room_code: string,
