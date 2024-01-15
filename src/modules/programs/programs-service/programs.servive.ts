@@ -1,5 +1,5 @@
-import { Program } from '../../database/entities/Program.entity';
-import { IProgramRepo, PROGRAMS_REPO } from '../programs-repo/programs.repo';
+import { Program } from "../../database/entities/Program.entity";
+import { IProgramRepo, PROGRAMS_REPO } from "../programs-repo/programs.repo";
 import { Inject, Injectable } from '@nestjs/common';
 
 export const PROGRAMS_SERVICE = 'PROGRAMS_SERVICE';
@@ -20,10 +20,11 @@ export interface IProgramService {
 
 @Injectable()
 export class ProgramService implements IProgramService {
+  [x: string]: any;
   constructor(
-    @Inject(PROGRAMS_REPO) private readonly programsRepo: IProgramService,
+    @Inject(PROGRAMS_REPO) private readonly subscriptionsRepo: IProgramRepo,
   ) {}
-  
+
   async getProgram(idProgram: number) {
     const program = await this.programsRepo.getProgram(idProgram);
     if (!program) throw new Error("Программа не найдена!");
