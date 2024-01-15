@@ -1,5 +1,5 @@
 import { Client } from '../../database/entities/Client.entity';
-import { IClientRepo, CLIENTS_REPO } from '../clients-repo/clients-repo';
+import { IClientRepo, CLIENTS_REPO } from '../clients-repo/clients.repo';
 import { Inject, Injectable } from '@nestjs/common';
 
 export const CLIENTS_SERVICE = 'CLIENTS_SERVICE';

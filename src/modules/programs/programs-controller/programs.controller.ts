@@ -11,7 +11,7 @@ import {
 import {
   IProgramService,
   PROGRAMS_SERVICE,
-} from '../programs-service/programs.service';
+} from '../programs-service/programs.servive';
 import { Request, Response } from 'express';
 
 export interface IProgramController {}

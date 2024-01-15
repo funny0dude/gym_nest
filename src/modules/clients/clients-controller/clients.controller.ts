@@ -11,7 +11,7 @@ import {
 import {
   IClientService,
   CLIENTS_SERVICE,
-} from '../clients-service/clients-service';
+} from '../clients-service/clients.service';
 import { Request, Response } from 'express';
 
 export interface IClientsController {}

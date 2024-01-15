@@ -5,7 +5,7 @@ import { DatabaseModule } from '../database/database.module';
 import {
   PROGRAMS_SERVICE,
   ProgramService,
-} from './programs-service/programs.service';
+} from './programs-service/programs.servive';
 
 @Module({
   imports: [DatabaseModule],

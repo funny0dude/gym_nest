@@ -23,6 +23,7 @@ export class ProgramService implements IProgramService {
   constructor(
     @Inject(PROGRAMS_REPO) private readonly programsRepo: IProgramService,
   ) {}
+  
   async getProgram(idProgram: number) {
     const program = await this.programsRepo.getProgram(idProgram);
     if (!program) throw new Error("Программа не найдена!");
