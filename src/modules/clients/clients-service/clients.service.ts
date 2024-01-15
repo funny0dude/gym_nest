@@ -40,12 +40,7 @@ export class ClientService implements IClientService {
     await this.clientsRepo.deleteClient(client);
   }
 
-  async createClient(
-    firstname: string,
-    surname: string,
-    patronymic: string,
-    phone: string,
-  ) {
+  async createClient(firstname: string, surname: string, patronymic: string, phone: string) {
     const client = new Client();
     client.firstname = firstname;
     client.surname = surname;
@@ -54,13 +49,7 @@ export class ClientService implements IClientService {
     await this.clientsRepo.createClient(client);
   }
 
-  async updateClient(
-    idClient: number,
-    firstname: string,
-    surname: string,
-    patronymic: string,
-    phone: string,
-  ) {
+  async updateClient(idClient: number, firstname: string, surname: string, patronymic: string, phone: string,) {
     const client = await this.clientsRepo.getClient(idClient);
     if (!client) throw new Error('Клиент не найден!');
     client.firstname = firstname;

@@ -54,5 +54,4 @@ export class SubscriptionService implements ISubscriptionService {
     subscription.duration_id = duration_id;
     await this.subscriptionsRepo.updateSubscription(subscription);
   }
-
 }
